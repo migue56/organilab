@@ -15,9 +15,80 @@
 	      <form enctype="multipart/form-data" action="
 	        {% if form.instance.pk %}{% url 'laboratory:objectview_update' laboratory form.instance.pk %}{% else %}{% url 'laboratory:objectview_create' laboratory %} {% endif %}"
 	            method="post">{% csrf_token %}
+	                  
 	        {{ form|bootstrap }}
-	        <input class="btn btn-info" type="submit" value="{% trans 'Save' %}">
+	        <input class="btn btn-info" type="submit" value="{% trans 'Save' %}"/>
 	      </form>
+
+	         <div>
+	         
+	   <style>
+		    #object-formule
+		    {
+		      width: 100%;
+		      overflow-x: auto;
+		      border: 2px dashed #ccc;
+		      display: none;
+		    }
+    </style>        
+	     
+	                
+    <br>
+    <br>
+       {% if form.type.value == "0" %}
+		    <div id="object-formule" >
+		       <div class="object" id="viewerobject1" data-widget="Kekule.ChemWidget.Viewer2D" data-predefined-setting="editOnly" data-auto-size="true"  ></div>
+		    </div>
+			<script>
+			   var viewer;
+			   var mol;
+			   var container = "#object-formule";
+			   var field =  "id_molecular_formula";
+			   var fieldViewer = 'viewerobject1';
+				Kekule.Indigo.enable();	
+				
+				function prepareViewers(){		
+					viewer = new Kekule.ChemWidget.Viewer(document.getElementById(fieldViewer));
+					viewer.setEnableDirectInteraction(false)
+					viewer.setEnableEdit(true)
+				
+					
+			        mol = new Kekule.Molecule();
+			        viewer.setChemObj(mol);
+				}
+				function display_kekule(smile) {
+					  var mol = Kekule.IO.loadFormatData(smile, "smi");
+					  viewer.setChemObj(mol);
+					}		
+				function display() {
+					  var smi = $("#"+field).val();
+					  display_kekule(smi);
+					  
+				}
+				function read_smile() {
+					  var changeObj = viewer.getChemObj();
+					  mol = Kekule.ChemStructureUtils.getTotalStructFragment(changeObj);
+					  if (mol){
+						        s = Kekule.IO.saveMimeData(mol, 'chemical/x-daylight-smiles');
+						        $("#"+field).val(s);
+					   }
+				  }
+				
+				$(document).ready(function() { 
+					$('#'+field).on("keyup",  display);
+					$( "#"+field ).on( "click",function (e){
+						display();
+						$( container ).show();						
+					});
+							
+					viewer.addEventListener('change', read_smile);
+				});
+				
+				
+				$( "#object-formule" ).insertAfter( $("#"+field).parent() );
+				Kekule.X.domReady(prepareViewers);
+		    </script>
+	     {% endif %}
       {% else %} 
           {% include 'laboratory/action_denied.html' %} 
       {% endif %}
