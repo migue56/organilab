@@ -24,9 +24,12 @@
     <br>
     <br>
        {% if form.type.value == "0" %} 
-		    <div id="object-formule" class="object_formule_draw ">
-		       <div class="object" id="viewerobject1" data-widget="Kekule.ChemWidget.Viewer2D" data-predefined-setting="editOnly" data-auto-size="true"  ></div>
-		    </div>
+             <button id='button-edit-kekule' type="button"   data-widget="Kekule.Widget.Button" class="K-Chem-Viewer-Edit K-Normal-Background K-Container K-Toolbar K-Button-Group K-NonSelectable K-Corner-All K-No-Wrap K-Layout-H K-Dynamic-Created K-Text-Hide K-Glyph-Show K-Chem-InnerToolbar K-Chem-Viewer-Embedded-Toolbar K-State-Normal" draggable="false" title="Open an editor to modify displayed object"><span class=" K-Content K-Glyph-Content K-Dynamic-Created K-Pri-Glyph-Content"></span><span class=" K-Content K-Text-Content K-Dynamic-Created">{% trans 'Edit...' %}</span><span class=" K-Content K-Glyph-Content K-Dynamic-Created K-Assoc-Glyph-Content"></span></button>
+             
+             <div id="object-formule" class="object_formule_draw ">
+		              <div class="object" id="viewerobject1" data-widget="Kekule.ChemWidget.Viewer2D" data-predefined-setting="editOnly" data-auto-size="true"  >
+		     </div>
+
 			<script>
 			   var viewer;
 			   var mol;
@@ -37,9 +40,13 @@
 				$(document).ready(function() {
 					kekule_prepareViewers();
 					kekule_add_events();
+					button1 = Kekule.Widget.getWidgetById('button-edit-kekule');
+					button1.addEventListener('execute', function(){ alert('button1 executed'); });
 					
 				});
 				$( "#"+container ).insertAfter( $("#"+field).parent() );
+				$('#button-edit-kekule').insertAfter( $("#"+field).parent() );
+			
 		    </script>
 	     {% endif %}
       {% else %} 

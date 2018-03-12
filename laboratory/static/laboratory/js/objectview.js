@@ -57,7 +57,7 @@ function kekule_prepareViewers(){
     viewer.setChemObj(mol);
 }
 function kekule_display(smile) {
-	  var mol = Kekule.IO.loadFormatData(smile, "smi");
+	  mol = Kekule.IO.loadFormatData(smile, "smi");
 	  viewer.setChemObj(mol);
 	}		
 function kekule_event_display() {
