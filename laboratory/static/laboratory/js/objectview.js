@@ -60,7 +60,7 @@ function kekule_display(smile) {
 	  var mol = Kekule.IO.loadFormatData(smile, "smi");
 	  viewer.setChemObj(mol);
 	}		
-function display() {
+function kekule_event_display() {
 	  var smi = $("#"+field).val();
 	  kekule_display(smi);
 	  
@@ -75,9 +75,9 @@ function kekule_read_smile() {
   }
 function kekule_add_events(){
 	
-	$('#'+field).on("keyup",  display);
+	$('#'+field).on("keyup",  kekule_event_display);
 	$( "#"+field ).on( "click",function (e){
-		display();
+		kekule_event_display();
 		$( "#"+container ).show();						
 	});
 			
