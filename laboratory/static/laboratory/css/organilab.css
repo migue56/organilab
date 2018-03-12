@@ -64,3 +64,10 @@ p.help-block{
 .access_item{
 	margin: 5px 0;
 }
+.object_formule_draw
+			    {
+			      width: 100%;
+			      overflow-x: auto;
+			      border: 2px dashed #ccc;
+			      display: none;
+}

@@ -44,3 +44,42 @@ function hide_reactive_options() {
         document.getElementById(ids[i]).required = false;
     }
 }
+
+/* KEKULE */
+
+function kekule_prepareViewers(){		
+	viewer = new Kekule.ChemWidget.Viewer(document.getElementById(fieldViewer));
+	viewer.setEnableDirectInteraction(false)
+	viewer.setEnableEdit(true)
+
+	
+    mol = new Kekule.Molecule();
+    viewer.setChemObj(mol);
+}
+function kekule_display(smile) {
+	  var mol = Kekule.IO.loadFormatData(smile, "smi");
+	  viewer.setChemObj(mol);
+	}		
+function display() {
+	  var smi = $("#"+field).val();
+	  kekule_display(smi);
+	  
+}
+function kekule_read_smile() {
+	  var changeObj = viewer.getChemObj();
+	  mol = Kekule.ChemStructureUtils.getTotalStructFragment(changeObj);
+	  if (mol){
+		        s = Kekule.IO.saveMimeData(mol, 'chemical/x-daylight-smiles');
+		        $("#"+field).val(s);
+	   }
+  }
+function kekule_add_events(){
+	
+	$('#'+field).on("keyup",  display);
+	$( "#"+field ).on( "click",function (e){
+		display();
+		$( "#"+container ).show();						
+	});
+			
+	viewer.addEventListener('change', kekule_read_smile);
+}
